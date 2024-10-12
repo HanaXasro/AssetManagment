@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Dtos.AccountDtos
 {
-    public class AccountDto
+    public class UserDto
     {
         public Guid UserId { get; set; }
         public string FirstName { get; set; } = string.Empty;

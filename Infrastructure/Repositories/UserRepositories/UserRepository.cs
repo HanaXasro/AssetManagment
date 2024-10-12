@@ -128,7 +128,6 @@ namespace Infrastructure.Repositories.AccountRepositories
         {
             var refreshToken = await context.RefreshTokens.FirstOrDefaultAsync(o => o.Token == token &&
             o.Expires > DateTime.UtcNow);
-
             refreshToken!.Expires = DateTime.UtcNow;
             refreshToken.Revoked = DateTime.UtcNow;
             refreshToken.ReplacedByToken = IpAddressV4;

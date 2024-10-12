@@ -70,7 +70,7 @@ namespace Application.Commands.UserCommands.RefreshToken
 
             var Result = new LoginReqponseDto()
             {
-                user = mapper.Map<AccountDto>(refreshTokenExists.User),
+                user = mapper.Map<UserDto>(refreshTokenExists.User),
                 Token = CreateToken(refreshToken.User!),
                 RefreshToken = refreshToken.Token,
                 Expired = DateTime.UtcNow.AddMinutes(15)

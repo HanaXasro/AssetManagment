@@ -8,7 +8,7 @@ namespace Application.Dtos.AccountDtos
 {
     public class LoginReqponseDto
     {
-        public AccountDto? user { get; set; }
+        public UserDto? user { get; set; }
         public string? Token { get; set; }
         public string? RefreshToken { get; set; }
 

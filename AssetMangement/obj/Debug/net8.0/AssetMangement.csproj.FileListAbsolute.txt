@@ -149,3 +149,4 @@ C:\Users\baban\source\repos\AssetMangement\AssetMangement\obj\Debug\net8.0\refin
 C:\Users\baban\source\repos\AssetMangement\AssetMangement\obj\Debug\net8.0\AssetMangement.pdb
 C:\Users\baban\source\repos\AssetMangement\AssetMangement\obj\Debug\net8.0\AssetMangement.genruntimeconfig.cache
 C:\Users\baban\source\repos\AssetMangement\AssetMangement\obj\Debug\net8.0\ref\AssetMangement.dll
+C:\Users\baban\source\repos\AssetMangement\AssetMangement\obj\Debug\net8.0\AssetMangement.sourcelink.json

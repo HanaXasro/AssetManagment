@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
-//builder.WebHost.UseUrls("http://192.168.47.90:5000/");
+//builder.WebHost.UseUrls("http://172.20.10.2:5000/");
 
 builder.Services.AddCors(o => {
     o.AddPolicy("all", builder => builder.AllowAnyOrigin()

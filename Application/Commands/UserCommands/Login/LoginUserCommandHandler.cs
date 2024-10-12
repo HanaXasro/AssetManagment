@@ -50,7 +50,7 @@ namespace Application.Commands.UserCommands.Login
 
             var Result = new LoginReqponseDto()
             {
-                user = mapper.Map<AccountDto>(user),
+                user = mapper.Map<UserDto>(user),
                 Token = CreateToken(user),
                 RefreshToken = CreateRefreshToken(),
                 Expired = DateTime.UtcNow.AddMinutes(15)

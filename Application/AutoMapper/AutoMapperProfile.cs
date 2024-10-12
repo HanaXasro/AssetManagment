@@ -15,7 +15,7 @@ namespace Application.AutoMapper
         public AutoMapperProfile()
         {
             CreateMap<RegisterUserCommand, User>().ReverseMap();
-            CreateMap<User, AccountDto>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();
         }
     }
 }

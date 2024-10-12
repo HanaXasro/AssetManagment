@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AssetMangement.Controllers.User
+namespace AssetMangement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

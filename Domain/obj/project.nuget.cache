@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MtTN7wRrTkA=",
+  "dgSpecHash": "RqocVIiTUlw=",
   "success": true,
-  "projectFilePath": "C:\\Users\\baban\\source\\repos\\AssetMangement\\Domain\\Domain.csproj",
+  "projectFilePath": "C:\\src\\AssetManagment\\Domain\\Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

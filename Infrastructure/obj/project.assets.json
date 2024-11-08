@@ -4301,43 +4301,35 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\baban\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Hana\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\baban\\source\\repos\\AssetMangement\\Infrastructure\\Infrastructure.csproj",
+      "projectUniqueName": "C:\\src\\AssetManagment\\Infrastructure\\Infrastructure.csproj",
       "projectName": "Infrastructure",
-      "projectPath": "C:\\Users\\baban\\source\\repos\\AssetMangement\\Infrastructure\\Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\baban\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\baban\\source\\repos\\AssetMangement\\Infrastructure\\obj\\",
+      "projectPath": "C:\\src\\AssetManagment\\Infrastructure\\Infrastructure.csproj",
+      "packagesPath": "C:\\Users\\Hana\\.nuget\\packages\\",
+      "outputPath": "C:\\src\\AssetManagment\\Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\baban\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\Hana\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\baban\\source\\repos\\AssetMangement\\Application\\Application.csproj": {
-              "projectPath": "C:\\Users\\baban\\source\\repos\\AssetMangement\\Application\\Application.csproj"
+            "C:\\src\\AssetManagment\\Application\\Application.csproj": {
+              "projectPath": "C:\\src\\AssetManagment\\Application\\Application.csproj"
             },
-            "C:\\Users\\baban\\source\\repos\\AssetMangement\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\baban\\source\\repos\\AssetMangement\\Domain\\Domain.csproj"
+            "C:\\src\\AssetManagment\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\src\\AssetManagment\\Domain\\Domain.csproj"
             }
           }
         }
@@ -4396,7 +4388,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

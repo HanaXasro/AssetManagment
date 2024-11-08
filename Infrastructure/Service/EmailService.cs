@@ -17,32 +17,32 @@ namespace Infrastructure.Service
 {
     public class EmailService : IEmailService
     {
-        private AppSettings appSetting;
+        private AppSettings _appSetting;
 
         public EmailService(IConfiguration configuration)
         {
-            appSetting = new();
-            appSetting.RefreshTokenTTL = int.Parse(configuration.GetSection("AppSettings:RefreshTokenTTL").Value!);
-            appSetting.Secret = configuration.GetSection("AppSettings:Secret").Value!;
-            appSetting.EmailFrom = configuration.GetSection("AppSettings:EmailFrom").Value!;
-            appSetting.SmtpHost = configuration.GetSection("AppSettings:SmtpHost").Value!;
-            appSetting.SmtpPort = int.Parse(configuration.GetSection("AppSettings:SmtpPort").Value!);
-            appSetting.SmtpUser = configuration.GetSection("AppSettings:SmtpUser").Value!;
-            appSetting.SmtpPass = configuration.GetSection("AppSettings:SmtpPass").Value!;
+            _appSetting = new();
+            _appSetting.RefreshTokenTTL = int.Parse(configuration.GetSection("AppSettings:RefreshTokenTTL").Value!);
+            _appSetting.Secret = configuration.GetSection("AppSettings:Secret").Value!;
+            _appSetting.EmailFrom = configuration.GetSection("AppSettings:EmailFrom").Value!;
+            _appSetting.SmtpHost = configuration.GetSection("AppSettings:SmtpHost").Value!;
+            _appSetting.SmtpPort = int.Parse(configuration.GetSection("AppSettings:SmtpPort").Value!);
+            _appSetting.SmtpUser = configuration.GetSection("AppSettings:SmtpUser").Value!;
+            _appSetting.SmtpPass = configuration.GetSection("AppSettings:SmtpPass").Value!;
         }
         public void Send(string to, string subject, string html, string? from = null)
         {
             // create message
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(from ?? appSetting.EmailFrom));
+            email.From.Add(MailboxAddress.Parse(from ?? _appSetting.EmailFrom));
             email.To.Add(MailboxAddress.Parse(to));
             email.Subject = subject;
             email.Body = new TextPart(TextFormat.Html) { Text = html };
 
             // send email
             using var smtp = new SmtpClient();
-            smtp.Connect(appSetting.SmtpHost, appSetting.SmtpPort, SecureSocketOptions.StartTls);
-            smtp.Authenticate(appSetting.SmtpUser, appSetting.SmtpPass);
+            smtp.Connect(_appSetting.SmtpHost, _appSetting.SmtpPort, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_appSetting.SmtpUser, _appSetting.SmtpPass);
             smtp.Send(email);
             smtp.Disconnect(true);
         }

@@ -1,27 +1,13 @@
-﻿using Domain.Entities.UserEntity;
+﻿using System.Linq.Expressions;
+using Domain.Entities.UserEntity;
 using Domain.Repositories.UserRepositores;
 using Infrastructure.DataContext;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.X509;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Infrastructure.Repositories.AccountRepositories
+namespace Infrastructure.Repositories.UserRepositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository(DataDbContext context) : IUserRepository
     {
-
-        private readonly DataDbContext context;
-
-        public UserRepository(DataDbContext context)
-        {
-            this.context = context;
-        }
-
         public async Task<RefreshToken> CreateRefreshAsync(RefreshToken refreshToken)
         {
             var olRefreshToken = await context.RefreshTokens.Where(o => o.User!.UserId == refreshToken.User!.UserId).ToListAsync();
@@ -74,18 +60,18 @@ namespace Infrastructure.Repositories.AccountRepositories
         }
 
 
-        public async Task<User> ResendCodeToRest(Guid UserId, string token)
+        public async Task<User> ResendCodeToRest(Guid userId, string token)
         {
-            var user = await context.Users.FirstOrDefaultAsync(o => o.UserId == UserId);
+            var user = await context.Users.FirstOrDefaultAsync(o => o.UserId == userId);
             user!.VerificationToken = token;
             user.ResetTokenExpires = DateTime.UtcNow;
             await context.SaveChangesAsync();
             return user;
         }
 
-        public async Task<User> ResendCodeToVerfy(Guid UserId, string token)
+        public async Task<User> ResendCodeToVerify(Guid userId, string token)
         {
-            var user = await context.Users.FirstOrDefaultAsync(o => o.UserId == UserId);
+            var user = await context.Users.FirstOrDefaultAsync(o => o.UserId == userId);
             user!.VerificationToken = token;
             await context.SaveChangesAsync();
             return user;
@@ -96,41 +82,30 @@ namespace Infrastructure.Repositories.AccountRepositories
             var user = await context.Users.FirstOrDefaultAsync(o => o.ResetToken == token);
             user!.ResetToken = null;
             user.PasswordHash = password;
-            user.Updated = DateTime.UtcNow;
+            user.Updates!.Add(DateTime.UtcNow);
             user.ResetTokenExpires = null;
             await context.SaveChangesAsync();
             return user;
         }
 
-        public async Task<RefreshToken> RevokeToekn(string Token, string IpAddressV4)
+        public async Task<RefreshToken> RevokeToken(string token, string ipAddressV4)
         {
-            var refreshToken = await context.RefreshTokens.FirstOrDefaultAsync(o => o.Token == Token);
+            var refreshToken = await context.RefreshTokens.FirstOrDefaultAsync(o => o.Token == token);
             refreshToken!.Expires = DateTime.UtcNow;
             refreshToken.Revoked = DateTime.UtcNow;
-            refreshToken.RevokedByIp = IpAddressV4;
+            refreshToken.RevokedByIp = ipAddressV4;
             await context.SaveChangesAsync();
             return refreshToken;
         }
 
-        public async Task<RefreshToken?> RevokeToeknAndReplase(string Token, string IpAddressV4, string ReplaseToken)
+        public async Task<RefreshToken?> RevokeTokenAndRelapse(string token, string ipAddressV4, string replaseToken)
         {
-            var refreshToken = await context.RefreshTokens.FirstOrDefaultAsync(o => o.Token == Token);
+            var refreshToken = await context.RefreshTokens.FirstOrDefaultAsync(o => o.Token == token);
 
             refreshToken!.Expires = DateTime.UtcNow;
             refreshToken.Revoked = DateTime.UtcNow;
-            refreshToken.RevokedByIp = IpAddressV4;
-            refreshToken.ReplacedByToken = ReplaseToken;
-            await context.SaveChangesAsync();
-            return refreshToken;
-        }
-
-        public async Task<RefreshToken> RevokeToken(string token, string IpAddressV4)
-        {
-            var refreshToken = await context.RefreshTokens.FirstOrDefaultAsync(o => o.Token == token &&
-            o.Expires > DateTime.UtcNow);
-            refreshToken!.Expires = DateTime.UtcNow;
-            refreshToken.Revoked = DateTime.UtcNow;
-            refreshToken.ReplacedByToken = IpAddressV4;
+            refreshToken.RevokedByIp = ipAddressV4;
+            refreshToken.ReplacedByToken = replaseToken;
             await context.SaveChangesAsync();
             return refreshToken;
         }

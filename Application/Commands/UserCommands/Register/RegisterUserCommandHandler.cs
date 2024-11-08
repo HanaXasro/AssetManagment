@@ -1,16 +1,8 @@
 ﻿using AutoMapper;
-using Application.Helper;
 using Domain.Service;
 using Domain.Repositories.UserRepositores;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using BC = BCrypt.Net.BCrypt;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Application.Exceptions;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Http;
@@ -18,21 +10,13 @@ using Domain.Entities.UserEntity;
 
 namespace Application.Commands.UserCommands.Register
 {
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, string>
+    public class RegisterUserCommandHandler(
+        IMapper mapper,
+        IUserRepository userRepository,
+        IEmailService emailService,
+        IHttpContextAccessor httpContextAccessor)
+        : IRequestHandler<RegisterUserCommand, string>
     {
-        private readonly IMapper mapper;
-        private readonly IUserRepository userRepository;
-        private readonly IEmailService emailService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public RegisterUserCommandHandler(IMapper mapper, IUserRepository userRepository, IEmailService emailService, IHttpContextAccessor httpContextAccessor)
-        {
-            this.mapper = mapper;
-            this.userRepository = userRepository;
-            this.emailService = emailService;
-            _httpContextAccessor = httpContextAccessor;
-        }
-
         public async Task<string> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             Expression<Func<User, bool>> filter = x => x.Email == request.Email;
@@ -74,7 +58,7 @@ namespace Application.Commands.UserCommands.Register
         private void sendAlreadyRegisteredEmail(string email)
         {
             string message;
-            string origin = _httpContextAccessor.HttpContext!.Request!.Headers["origin"]!;
+            string origin = httpContextAccessor.HttpContext!.Request!.Headers["origin"]!;
             if (!string.IsNullOrEmpty(origin))
                 message = $@"<p>If you don't know your password please visit the <a href=""{origin}/user/forgot-password"">forgot password</a> page.</p>";
             else
@@ -92,7 +76,7 @@ namespace Application.Commands.UserCommands.Register
         private void sendVerificationEmail(User user)
         {
             string message;
-            string origin = _httpContextAccessor.HttpContext!.Request!.Headers["origin"]!;
+            string origin = httpContextAccessor.HttpContext!.Request!.Headers["origin"]!;
             if (!string.IsNullOrEmpty(origin))
             {
                 // var verifyUrl = $"{origin}/user/verify-email?token={user.VerificationToken}";

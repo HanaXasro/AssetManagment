@@ -1,7 +1,6 @@
 ﻿using Domain.Repositories.UserRepositores;
 using Domain.Service;
 using Infrastructure.DataContext;
-using Infrastructure.Repositories.AccountRepositories;
 using Infrastructure.Repositories.UserRepositories;
 using Infrastructure.Service;
 using Microsoft.EntityFrameworkCore;

@@ -22,23 +22,13 @@ using System.Linq.Expressions;
 
 namespace Application.Commands.UserCommands.RefreshToken
 {
-    public class RefreshTokenUserCommandHandler : IRequestHandler<RefreshTokenUserCommand, LoginReqponseDto>
+    public class RefreshTokenUserCommandHandler(
+        IUserRepository userRepository,
+        IConfiguration configuration,
+        IMapper mapper,
+        IHttpContextAccessor httpContextAccessor)
+        : IRequestHandler<RefreshTokenUserCommand, LoginReqponseDto>
     {
-
-        private readonly IUserRepository userRepository;
-        private readonly IConfiguration configuration;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IMapper mapper;
-
-        public RefreshTokenUserCommandHandler(IUserRepository userRepository, IConfiguration configuration, IMapper mapper, IHttpContextAccessor httpContextAccessor)
-        {
-            this.userRepository = userRepository;
-            this.configuration = configuration;
-            this.mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
-        }
-
-
         public async Task<LoginReqponseDto> Handle(RefreshTokenUserCommand request, CancellationToken cancellationToken)
         {
 
@@ -60,7 +50,7 @@ namespace Application.Commands.UserCommands.RefreshToken
                 Expires = DateTime.UtcNow.AddMinutes(15),
             };
 
-            var revokeTokenResult = await userRepository.RevokeToeknAndReplase(refreshTokenExists.Token,
+            var revokeTokenResult = await userRepository.RevokeTokenAndRelapse(refreshTokenExists.Token,
                 refreshToken.CreatedByIp, refreshToken.Token);
 
             if (revokeTokenResult == null)
@@ -105,10 +95,10 @@ namespace Application.Commands.UserCommands.RefreshToken
 
         private string ipAddressV4()
         {
-            if (_httpContextAccessor.HttpContext!.Request.Headers.ContainsKey("X-Forwarded-For"))
-                return _httpContextAccessor.HttpContext!.Request.Headers["X-Forwarded-For"]!;
+            if (httpContextAccessor.HttpContext!.Request.Headers.ContainsKey("X-Forwarded-For"))
+                return httpContextAccessor.HttpContext!.Request.Headers["X-Forwarded-For"]!;
             else
-                return _httpContextAccessor.HttpContext!.Connection.RemoteIpAddress!.MapToIPv4().ToString();
+                return httpContextAccessor.HttpContext!.Connection.RemoteIpAddress!.MapToIPv4().ToString();
         }
 
         private void setTokenCookie(string token)
@@ -118,7 +108,7 @@ namespace Application.Commands.UserCommands.RefreshToken
                 HttpOnly = true,
                 Expires = DateTime.UtcNow.AddDays(2)
             };
-            _httpContextAccessor.HttpContext!.Response.Cookies.Append("refreshToken", token, cookieOptions);
+            httpContextAccessor.HttpContext!.Response.Cookies.Append("refreshToken", token, cookieOptions);
         }
     }
 }

@@ -16,12 +16,11 @@ namespace Domain.Repositories.UserRepositores
         Task<User> ForgotPassword(string email,string token);
         Task<User?> IsUnique(Expression<Func<User , bool>> query);
         Task<RefreshToken> CreateRefreshAsync(RefreshToken refreshToken);
-        Task<RefreshToken?> RevokeToeknAndReplase(string Token, string IpAddressV4,string ReplaseToken);
-        Task<RefreshToken> RevokeToekn(string Token,string IpAddressV4);
+        Task<RefreshToken?> RevokeTokenAndRelapse(string token, string ipAddressV4,string replaseToken);
         Task<User> ResetPassword(string token, string password);
-        Task<RefreshToken> RevokeToken(string token,string IpAddressV4);
-        Task<User> ResendCodeToRest(Guid UserId,string token);
-        Task<User> ResendCodeToVerfy(Guid UserId,string token);
+        Task<RefreshToken> RevokeToken(string token,string ipAddressV4);
+        Task<User> ResendCodeToRest(Guid userId,string token);
+        Task<User> ResendCodeToVerify(Guid userId,string token);
 
         Task<User?> FindAsync(Expression<Func<User, bool>> query);
         Task<RefreshToken?> FindAsync(Expression<Func<RefreshToken, bool>> query);

@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories.UserRepositories
 {
-    public class UserReference(IHttpContextAccessor _httpContextAccessor) : IUserReference
+    public class UserReference(IHttpContextAccessor httpContextAccessor) : IUserReference
     {
-
-        public Guid UserId => ((User)_httpContextAccessor.HttpContext!.Items["User"]!).UserId;
+        public Guid UserId => ((User)httpContextAccessor.HttpContext!.Items["User"]!).UserId;
     }
 }

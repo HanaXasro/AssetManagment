@@ -22,12 +22,12 @@ public class ForgotPasswordUserCommandHandler(
             throw new NotFoundEx("Email Not Found.", request.Email);
 
         var user = await userRepository.ForgotPassword(request.Email, new Random().Next(0000, 9999).ToString("D4"));
-        sendPasswordResetEmail(user);
+        SendPasswordResetEmail(user);
         return "Token Send Email Please Check Your Email.";
     }
 
 
-    private void sendPasswordResetEmail(User user)
+    private void SendPasswordResetEmail(User user)
     {
         string message;
         string origin = httpContextAccessor.HttpContext!.Request!.Headers["origin"]!;

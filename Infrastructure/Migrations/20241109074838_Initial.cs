@@ -136,13 +136,13 @@ namespace Infrastructure.Migrations
                         column: x => x.FromUnitId,
                         principalTable: "UnitOfMeasures",
                         principalColumn: "UomId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UnitConversions_UnitOfMeasures_ToUnitId",
                         column: x => x.ToUnitId,
                         principalTable: "UnitOfMeasures",
                         principalColumn: "UomId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

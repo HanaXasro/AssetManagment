@@ -395,13 +395,13 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Inventory.UnitOfMeasure", "FromUnit")
                         .WithMany()
                         .HasForeignKey("FromUnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Inventory.UnitOfMeasure", "ToUnit")
                         .WithMany()
                         .HasForeignKey("ToUnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("FromUnit");

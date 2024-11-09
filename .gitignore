@@ -3,3 +3,8 @@
 ################################################################################
 
 /AssetMangement.sln
+# Ignore bin and obj folders
+# Ignore build artifacts and temporary files
+**/bin/
+**/obj/
+*.pdb

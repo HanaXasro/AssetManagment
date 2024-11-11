@@ -3,7 +3,6 @@ using Application.Dtos.AccountDtos;
 using Application.Exceptions;
 using Application.Helper;
 using Domain.Entities.UserEntity;
-using Domain.Repositories.UserRepositores;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +18,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using Domain.Repositories.UserRepositories;
 
 namespace Application.Commands.UserCommands.RefreshToken
 {

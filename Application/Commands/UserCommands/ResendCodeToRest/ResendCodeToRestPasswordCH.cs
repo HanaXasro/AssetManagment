@@ -1,7 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.Helper;
 using Domain.Entities.UserEntity;
-using Domain.Repositories.UserRepositores;
 using Domain.Service;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Repositories.UserRepositories;
 
 namespace Application.Commands.UserCommands.ResendCodeToRest
 {

@@ -8,10 +8,12 @@ public class UnitConversion : BaseInventoryEntity
     [Key] public long ConversionId { get; set; }
     [Required]
     public string Title { get; set; } = string.Empty;
+    public long ProductId { get; set; }
+    public Product? Product { get; set; }
     public long FromUnitId { get; set; }
     public UnitOfMeasure? FromUnit { get; set; }
     public long ToUnitId { get; set; }
     public UnitOfMeasure? ToUnit { get; set; }
-    [Column(TypeName = "decimal(19,3)")]
+    [Column(TypeName = "decimal(19,10)")]
     public decimal Factor { get; set; }
 }

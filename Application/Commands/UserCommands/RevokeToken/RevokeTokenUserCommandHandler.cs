@@ -1,10 +1,10 @@
 ﻿using Application.Helper;
-using Domain.Repositories.UserRepositores;
 using Application.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
 using Domain.Entities.UserEntity;
+using Domain.Repositories.UserRepositories;
 
 namespace Application.Commands.UserCommands.RevokeToken
 {

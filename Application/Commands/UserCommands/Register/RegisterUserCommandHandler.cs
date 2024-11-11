@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Domain.Service;
-using Domain.Repositories.UserRepositores;
 using MediatR;
 using BC = BCrypt.Net.BCrypt;
 using Application.Exceptions;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Http;
 using Domain.Entities.UserEntity;
+using Domain.Repositories.UserRepositories;
 
 namespace Application.Commands.UserCommands.Register
 {

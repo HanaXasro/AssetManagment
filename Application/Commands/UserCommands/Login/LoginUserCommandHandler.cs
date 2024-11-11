@@ -3,7 +3,6 @@ using Application.Dtos.AccountDtos;
 using Application.Exceptions;
 using Application.Helper;
 using Domain.Entities.UserEntity;
-using Domain.Repositories.UserRepositores;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +17,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Domain.Repositories.UserRepositories;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Application.Commands.UserCommands.Login

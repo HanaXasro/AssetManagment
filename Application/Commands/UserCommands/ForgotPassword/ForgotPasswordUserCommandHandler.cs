@@ -1,10 +1,10 @@
 ﻿using Domain.Service;
 using Domain.Entities.UserEntity;
-using Domain.Repositories.UserRepositores;
 using MediatR;
 using Application.Exceptions;
 using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
+using Domain.Repositories.UserRepositories;
 
 namespace Application.Commands.UserCommands.ForgotPassword;
 

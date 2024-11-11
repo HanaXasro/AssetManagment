@@ -1,4 +1,4 @@
-﻿using Domain.Repositories.UserRepositores;
+﻿using Domain.Repositories.UserRepositories;
 using Domain.Service;
 using Infrastructure.DataContext;
 using Infrastructure.Repositories.UserRepositories;

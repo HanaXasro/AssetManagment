@@ -14,5 +14,7 @@ public class Product : BaseInventoryEntity
     public long UnitOfMeasureId { get; set; }
     public UnitOfMeasure? UnitOfMeasure { get; set; }
 
+    public ProductUsage ProductUsage { get; set; } = ProductUsage.NotUsable;
+    
     public ICollection<Inventory>? Inventories { get; set; }
 }

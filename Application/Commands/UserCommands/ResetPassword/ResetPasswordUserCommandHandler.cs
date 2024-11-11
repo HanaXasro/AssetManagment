@@ -1,7 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.Helper;
 using Domain.Entities.UserEntity;
-using Domain.Repositories.UserRepositores;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,7 @@ using System.Linq.Expressions;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Repositories.UserRepositories;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Application.Commands.UserCommands.ResetPassword

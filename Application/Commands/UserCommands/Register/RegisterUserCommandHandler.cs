@@ -27,7 +27,7 @@ namespace Application.Commands.UserCommands.Register
             {
                 await userRepository.ForgotPassword(request.Email, CreateRefreshToken());
                 sendAlreadyRegisteredEmail(request.Email);
-                throw new BadRequestEx("Email Already Exists, check your Email to Forgot Password.");
+                throw new BadRequestException("Email Already Exists, check your Email to Forgot Password.");
             }
 
             Expression<Func<User, bool>> filterUsername = x => x.Username == request.Username;
@@ -35,7 +35,7 @@ namespace Application.Commands.UserCommands.Register
 
             if (IsUniqueUsername != null)
             {
-                throw new BadRequestEx($"Username not Available ({request.Username}).");
+                throw new BadRequestException($"Username not Available ({request.Username}).");
             }
 
             var accountEntity = mapper.Map<User>(request);

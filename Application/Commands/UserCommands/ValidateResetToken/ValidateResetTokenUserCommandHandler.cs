@@ -30,10 +30,10 @@ namespace Application.Commands.UserCommands.ValidateResetToken
             Expression<Func<User, bool>> filter = x => x.ResetToken == request.token;
             var user = await userRepository.FindAsync(filter);
             if (user == null)
-                throw new NotFoundEx("Token Invalid.", request.token);
+                throw new NotFoundException("Token Invalid.", request.token);
 
             if (user.ResetTokenExpires <= DateTime.UtcNow)
-                throw new BadRequestEx("Token Is Exiered.");
+                throw new BadRequestException("Token Is Exiered.");
 
             return "Token Is Activate";
         }

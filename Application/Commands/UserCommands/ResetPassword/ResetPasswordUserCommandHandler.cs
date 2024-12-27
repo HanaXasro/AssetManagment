@@ -29,7 +29,7 @@ namespace Application.Commands.UserCommands.ResetPassword
             Expression<Func<User, bool>> filter = x => x.ResetToken == request.Token;
             var user = await userRepository.FindAsync(filter);
             if (user == null)
-                throw new NotFoundEx("Token Invalid.", request.Token);
+                throw new NotFoundException("Token Invalid.", request.Token);
 
             await userRepository.ResetPassword(request.Token,BC.HashPassword(request.Password));
             return "Reset Password Successfuly.";

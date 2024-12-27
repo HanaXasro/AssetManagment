@@ -27,7 +27,7 @@ namespace Application.Commands.UserCommands.ResendCodeToRest
 
             var userExist = await userRepository.FindAsync(filter);
             if (userExist == null || userExist.ResetTokenExpires == null)
-                throw new NotFoundEx("Email not Found.", request.Email);
+                throw new NotFoundException("Email not Found.", request.Email);
 
             if (userExist.ResetTokenExpires < DateTime.UtcNow)
             {

@@ -21,7 +21,7 @@ public class DataDbContext(DbContextOptions<DataDbContext> options) : DbContext(
         modelBuilder.Entity<User>().HasIndex(x=>x.Username).IsUnique();
         modelBuilder.Entity<UnitOfMeasure>().HasIndex(x=>x.UnitName).IsUnique();
         modelBuilder.Entity<Product>().HasIndex(x=>x.ProductName).IsUnique();
-        modelBuilder.Entity<Category>().HasIndex(x=>x.CategoryName).IsUnique();
+        modelBuilder.Entity<Category>().HasIndex(x=>x.Name).IsUnique();
         modelBuilder.Entity<UnitConversion>()
             .HasOne(u => u.FromUnit)
             .WithMany()

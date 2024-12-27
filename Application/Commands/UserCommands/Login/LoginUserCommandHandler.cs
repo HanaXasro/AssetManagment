@@ -24,33 +24,33 @@ namespace Application.Commands.UserCommands.Login
 {
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginReqponseDto>
     {
-        private readonly IMapper mapper;
-        private readonly IUserRepository userRepository;
-        private readonly IConfiguration configuration;
+        private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public LoginUserCommandHandler(IMapper mapper, IUserRepository userRepository, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
-        {
-            this.mapper = mapper;
-            this.userRepository = userRepository;
-            this.configuration = configuration;
+        { 
+            _mapper = mapper;
+            _userRepository = userRepository;
+            _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<LoginReqponseDto> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
 
-            var user = await userRepository.Login(request.UsernameOrEmail);
+            var user = await _userRepository.Login(request.UsernameOrEmail);
             if (user == null || !BC.Verify(request.Password, user.PasswordHash))
-                throw new UnauthorizedEx("Email or Passsword Incorect.", request.UsernameOrEmail);
+                throw new UnauthorizedException("Email or Passsword Incorect.", request.UsernameOrEmail);
 
             if (string.IsNullOrWhiteSpace(user.Verified.ToString()) || !string.IsNullOrWhiteSpace(user.VerificationToken))
-                throw new BadRequestEx("You are not Verifiy.");
+                throw new BadRequestException("You are not Verifiy.");
 
 
             var Result = new LoginReqponseDto()
             {
-                user = mapper.Map<UserDto>(user),
+                user = _mapper.Map<UserDto>(user),
                 Token = CreateToken(user),
                 RefreshToken = CreateRefreshToken(),
                 Expired = DateTime.UtcNow.AddMinutes(15)
@@ -65,14 +65,14 @@ namespace Application.Commands.UserCommands.Login
                 CreatedByIp = ipAddressV4()
             };
             setTokenCookie(refreshToken.Token, _httpContextAccessor.HttpContext!.Response!);
-            await userRepository.CreateRefreshAsync(refreshToken);
+            await _userRepository.CreateRefreshAsync(refreshToken);
 
             return Result;
         }
 
         private string CreateToken(User user)
         {
-            var Secretkey = configuration.GetSection("AppSettings:Secret");
+            var Secretkey = _configuration.GetSection("AppSettings:Secret");
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Secretkey.Value!);
             var tokenDescriptor = new SecurityTokenDescriptor

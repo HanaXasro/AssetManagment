@@ -19,7 +19,7 @@ public class ForgotPasswordUserCommandHandler(
         Expression<Func<User, bool>> filter = x => x.ResetToken == request.Email;
         var userFind = await userRepository.FindAsync(filter);
         if (userFind == null)
-            throw new NotFoundEx("Email Not Found.", request.Email);
+            throw new NotFoundException("Email Not Found.", request.Email);
 
         var user = await userRepository.ForgotPassword(request.Email, new Random().Next(0000, 9999).ToString("D4"));
         SendPasswordResetEmail(user);

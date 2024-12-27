@@ -14,16 +14,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Middleware
 {
-    public class GlobalException
+    public class GlobalException(RequestDelegate requestDelegate)
     {
-        private readonly ILogger<Exception> _logger;
-        private readonly RequestDelegate requestDelegate;
 
-        public GlobalException(RequestDelegate requestDelegate, ILogger<Exception> logger)
-        {
-            this.requestDelegate = requestDelegate;
-            _logger = logger;
-        }
         public async Task InvokeAsync(HttpContext httpContext)
         {
             try
@@ -34,12 +27,12 @@ namespace Infrastructure.Middleware
             {
 
                 HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError;
-                CustomValidationProblemDetalis problem;
+                CustomProblemDetails problem;
                 switch (ex)
                 {
-                    case BadRequestEx badRequest:
+                    case BadRequestException badRequest:
                         httpStatusCode = HttpStatusCode.BadRequest;
-                        problem = new CustomValidationProblemDetalis
+                        problem = new CustomProblemDetails
                         {
                             Title = badRequest.Message,
                             Status = (int)httpStatusCode,
@@ -49,9 +42,9 @@ namespace Infrastructure.Middleware
                         };
                         break;
 
-                    case NotFoundEx notFound:
+                    case NotFoundException notFound:
                         httpStatusCode = HttpStatusCode.NotFound;
-                        problem = new CustomValidationProblemDetalis
+                        problem = new CustomProblemDetails
                         {
                             Title = notFound.Message,
                             Status = (int)httpStatusCode,
@@ -60,10 +53,21 @@ namespace Infrastructure.Middleware
                         };
 
                         break;
+                    case UnprocessableException unprocessable:
+                        httpStatusCode = HttpStatusCode.UnprocessableEntity;
+                        problem = new CustomProblemDetails
+                        {
+                            Title = unprocessable.Message,
+                            Status = (int)httpStatusCode,
+                            Detail = unprocessable.InnerException?.Message,
+                            Type = nameof(UnprocessableEntity),
+                        };
 
-                    case UnauthorizedEx unauthorizedEx:
+                        break;
+
+                    case UnauthorizedException unauthorizedEx:
                         httpStatusCode = HttpStatusCode.Unauthorized;
-                        problem = new CustomValidationProblemDetalis
+                        problem = new CustomProblemDetails
                         {
                             Title = unauthorizedEx.Message,
                             Status = (int)httpStatusCode,
@@ -75,14 +79,13 @@ namespace Infrastructure.Middleware
 
                     default:
 
-                        problem = new CustomValidationProblemDetalis
+                        problem = new CustomProblemDetails
                         {
                             Title = ex.Message,
                             Status = (int)httpStatusCode,
                             Type = "Unhandled Exception",
                             Detail = ex.StackTrace
                         };
-
                         break;
                 }
                 httpContext.Response.StatusCode = (int)httpStatusCode;

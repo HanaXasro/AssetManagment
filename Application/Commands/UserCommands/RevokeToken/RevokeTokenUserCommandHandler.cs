@@ -31,10 +31,10 @@ namespace Application.Commands.UserCommands.RevokeToken
 
             var refreshTokenExist = await userRepository.FindAsync(filter);
             if (refreshTokenExist == null)
-                throw new NotFoundEx("Token not found.", request.Token);
+                throw new NotFoundException("Token not found.", request.Token);
 
             if (!refreshTokenExist.IsActive)
-                throw new BadRequestEx("Token Invalid or Expired.");
+                throw new BadRequestException("Token Invalid or Expired.");
 
             var refreshToken = await userRepository.RevokeToken(request.Token, ipAddressV4());
             DelTokenCookie();

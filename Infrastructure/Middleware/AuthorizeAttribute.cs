@@ -27,7 +27,7 @@ namespace Infrastructure.Middleware
             var user = (User)context.HttpContext.Items["User"]!;
             if (user == null || (_roles.Any() && !_roles.Contains(user.Role)))
             {
-                var problem = new CustomValidationProblemDetalis
+                var problem = new CustomProblemDetails
                 {
                     Title = "Unauthorized",
                     Status = (int)HttpStatusCode.Unauthorized,

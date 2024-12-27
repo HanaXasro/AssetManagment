@@ -28,7 +28,7 @@ namespace Application.Commands.UserCommands.VerifyEmail
             Expression<Func<User, bool>> filter = x => x.VerificationToken == request.Token;
             var user = await userRepository.FindAsync(filter);
             if (user == null)
-                throw new NotFoundEx("Code Invalid.", request.Token);
+                throw new NotFoundException("Code Invalid.", request.Token);
             await userRepository.VerifyEmail(request.Token);
 
             return "Verify Email Successfuly.";

@@ -36,10 +36,10 @@ namespace Application.Commands.UserCommands.RefreshToken
 
             var refreshTokenExists = await userRepository.FindAsync(filter);
             if (refreshTokenExists == null)
-                throw new NotFoundEx("Referesh token not found.", request.Token);
+                throw new NotFoundException("Referesh token not found.", request.Token);
 
             if (!refreshTokenExists.IsActive)
-                throw new BadRequestEx("Token Is Expired.");
+                throw new BadRequestException("Token Is Expired.");
 
             var refreshToken = new Domain.Entities.UserEntity.RefreshToken()
             {
@@ -54,7 +54,7 @@ namespace Application.Commands.UserCommands.RefreshToken
                 refreshToken.CreatedByIp, refreshToken.Token);
 
             if (revokeTokenResult == null)
-                throw new BadRequestEx("Revoke Token Filed.");
+                throw new BadRequestException("Revoke Token Filed.");
 
             var createRefreshtokenResult = await userRepository.CreateRefreshAsync(refreshToken);
 

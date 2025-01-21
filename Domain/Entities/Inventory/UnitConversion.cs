@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Entities.Inventory;
 
@@ -14,6 +15,6 @@ public class UnitConversion : BaseEntity
     public UnitOfMeasure? FromUnit { get; set; }
     public long ToUnitId { get; set; }
     public UnitOfMeasure? ToUnit { get; set; }
-    [Column(TypeName = "decimal(19,10)")]
+    [Precision(10,3)]
     public decimal Factor { get; set; }
 }

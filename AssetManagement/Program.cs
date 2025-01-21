@@ -1,41 +1,46 @@
 using Application.Helper;
+using Infrastructure.AutoSeeds;
+using Infrastructure.DataContext;
 using Infrastructure.Helper;
 using Infrastructure.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
-//builder.WebHost.UseUrls("http://172.20.10.2:5000/");
 
 builder.Services.AddCors(o => {
-    o.AddPolicy("all", builder => builder.AllowAnyOrigin()
+    o.AddPolicy("all", e => e.AllowAnyOrigin()
     .AllowAnyHeader()
     .AllowAnyMethod()
     );
 });
 
 builder.Services.AddCors(o => {
-    o.AddPolicy("MyOrigin", builder => builder.WithOrigins("*.*")
+    o.AddPolicy("MyOrigin", e => e.WithOrigins("*.*")
     .AllowAnyHeader()
     .AllowAnyMethod()
     );
 });
-
 
 
 
 builder.Services.AddControllers();
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-//Configure the HTTP request pipeline.
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<DataDbContext>();
+    context.Database.EnsureCreated(); 
+    PermissionSeed.Seed(context);
+}
+
+
 if (app.Environment.IsDevelopment())
 {
      app.UseSwagger();

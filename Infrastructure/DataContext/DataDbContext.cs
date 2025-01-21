@@ -35,5 +35,17 @@ public class DataDbContext(DbContextOptions<DataDbContext> options) : DbContext(
             .WithMany()
             .HasForeignKey(u => u.ToUnitId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Category>()
+       .HasOne(c => c.Parent)  
+       .WithMany()              
+       .HasForeignKey(c => c.ParentId)
+       .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Item>()
+      .HasOne(c => c.Category)
+      .WithMany()
+      .HasForeignKey(c => c.CategoryId)
+      .OnDelete(DeleteBehavior.Restrict);
     }
 }

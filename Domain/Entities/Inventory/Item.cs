@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Domain.Entities.General;
 using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Entities.Inventory;
@@ -17,5 +18,7 @@ public class Item : BaseEntity
     [Precision(10, 3)]
     public decimal Cost { get; set; }
     public DateTime PurchaseDate { get; set; }
+    public int BranchId { get; set; }
+    public Branch? Branch { get; set; }
 
 }

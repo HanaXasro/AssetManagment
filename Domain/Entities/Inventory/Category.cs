@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Domain.Entities.General;
 
 namespace Domain.Entities.Inventory;
 
@@ -13,4 +14,10 @@ public class Category : BaseEntity
     public Category? Parent { get; set; }
 
     [MaxLength(255)] public string? Description { get; set; }
+    
+    public int BranchId { get; set; }
+    public Branch? Branch { get; set; }
+
+    public ICollection<Category>? Parents { get; set; }
+    public ICollection<Item>? Items { get; set; }
 }

@@ -7,6 +7,9 @@ namespace Infrastructure.DataContext;
 public class DataDbContext(DbContextOptions<DataDbContext> options) : DbContext(options)
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<Permission> Permissions { get; set; }
+    public DbSet<RolePermission> RolePermissions { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
     public DbSet<UnitConversion> UnitConversions { get; set; }

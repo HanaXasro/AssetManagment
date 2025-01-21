@@ -7,6 +7,7 @@ using Application.Commands.UserCommands.ResetPassword;
 using Application.Commands.UserCommands.RevokeToken;
 using Application.Commands.UserCommands.ValidateResetToken;
 using Application.Commands.UserCommands.VerifyEmail;
+using Domain.Entities.UserEntity;
 using Infrastructure.Middleware;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,6 @@ public class UserController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
     [Route("Register")]
-    //[Authorize(Role.Admin)]
     public async Task<IActionResult> Register([FromBody] RegisterUserCommand registerAccountCommand)
     {
         return Ok(await mediator.Send(registerAccountCommand));

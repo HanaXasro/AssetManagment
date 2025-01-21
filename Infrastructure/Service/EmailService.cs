@@ -1,14 +1,8 @@
 ﻿using Infrastructure.Helper;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using Domain.Service;
 
@@ -17,7 +11,7 @@ namespace Infrastructure.Service
 {
     public class EmailService : IEmailService
     {
-        private AppSettings _appSetting;
+        private readonly AppSettings _appSetting;
 
         public EmailService(IConfiguration configuration)
         {

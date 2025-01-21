@@ -20,7 +20,8 @@ namespace Domain.Entities.UserEntity
         public string? ImageUrl { get; set; }
         public string PasswordHash { get; set; } = string.Empty;
         public bool AcceptTerms { get; set; }
-        public Role Role { get; set; }
+        public long RoleId { get; set; }
+        public Role? Role { get; set; }
         public string? VerificationToken { get; set; }
         public DateTime? Verified { get; set; }
         public bool IsVerified => Verified.HasValue || PasswordReset.HasValue;

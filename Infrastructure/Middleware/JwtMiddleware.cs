@@ -1,30 +1,24 @@
-﻿using Application.Exceptions;
-using Infrastructure.DataContext;
-using Infrastructure.Helper;
+﻿using Infrastructure.DataContext;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Middleware
 {
     public class JwtMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public JwtMiddleware(RequestDelegate next, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public JwtMiddleware(RequestDelegate next, IConfiguration configuration,
+            IHttpContextAccessor httpContextAccessor)
         {
             _next = next;
-            this.configuration = configuration;
+            this._configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -33,18 +27,18 @@ namespace Infrastructure.Middleware
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (token != null)
-                await attachAccountToContext(context, dataContext, token);
+                await AttachAccountToContext(context, dataContext, token);
 
             await _next(context);
         }
 
-        private async Task attachAccountToContext(HttpContext context, DataDbContext dataContext, string token)
+        private async Task AttachAccountToContext(HttpContext context, DataDbContext dataContext, string token)
         {
             try
             {
-                var Secretkey = configuration.GetSection("AppSettings:Secret");
+                var secretkey = _configuration.GetSection("AppSettings:Secret");
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(Secretkey.Value!);
+                var key = Encoding.ASCII.GetBytes(secretkey.Value!);
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -57,7 +51,9 @@ namespace Infrastructure.Middleware
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = Guid.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
-                var resfreshToken = await dataContext.RefreshTokens.SingleOrDefaultAsync(x => x.UserId == userId && x.Expires > DateTime.UtcNow);
+                var resfreshToken =
+                    await dataContext.RefreshTokens.SingleOrDefaultAsync(x =>
+                        x.UserId == userId && x.Expires > DateTime.UtcNow);
 
                 if (resfreshToken == null)
                 {
@@ -74,12 +70,12 @@ namespace Infrastructure.Middleware
                     return;
                 }
 
-                context.Items["User"] = await dataContext.Users.Where(o => o.UserId == userId).
-                    Include(o => o.RefreshTokens!.Where(re => re.Expires > DateTime.UtcNow)).SingleOrDefaultAsync();
+                context.Items["User"] = await dataContext.Users.Where(o => o.UserId == userId)
+                    .Include(o => o.RefreshTokens!.Where(re => re.Expires > DateTime.UtcNow)).SingleOrDefaultAsync();
             }
-            catch
+            catch (Exception)
             {
-
+                // ignored
             }
         }
     }

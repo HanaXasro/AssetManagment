@@ -34,12 +34,12 @@ namespace Infrastructure.Middleware
             {
 
                 HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError;
-                CustomValidationProblemDetalis problem;
+                CustomProblemDetails problem;
                 switch (ex)
                 {
                     case BadRequestException badRequest:
                         httpStatusCode = HttpStatusCode.BadRequest;
-                        problem = new CustomValidationProblemDetalis
+                        problem = new CustomProblemDetails
                         {
                             Title = badRequest.Message,
                             Status = (int)httpStatusCode,
@@ -51,7 +51,7 @@ namespace Infrastructure.Middleware
 
                     case NotFoundException notFound:
                         httpStatusCode = HttpStatusCode.NotFound;
-                        problem = new CustomValidationProblemDetalis
+                        problem = new CustomProblemDetails
                         {
                             Title = notFound.Message,
                             Status = (int)httpStatusCode,
@@ -63,7 +63,7 @@ namespace Infrastructure.Middleware
 
                     case UnauthorizedException unauthorizedEx:
                         httpStatusCode = HttpStatusCode.Unauthorized;
-                        problem = new CustomValidationProblemDetalis
+                        problem = new CustomProblemDetails
                         {
                             Title = unauthorizedEx.Message,
                             Status = (int)httpStatusCode,
@@ -75,7 +75,7 @@ namespace Infrastructure.Middleware
 
                     default:
 
-                        problem = new CustomValidationProblemDetalis
+                        problem = new CustomProblemDetails
                         {
                             Title = ex.Message,
                             Status = (int)httpStatusCode,

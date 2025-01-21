@@ -1,9 +1,8 @@
 ﻿namespace Domain.Entities.UserEntity;
 
-public class Role
+public class Permission
 {
     public long Id { get; set; }
     public string Title { get; set; }
-    public ICollection<User>? Users { get; set; }
     public ICollection<RolePermission>? RolePermissions { get; set; }
 }

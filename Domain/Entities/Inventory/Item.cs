@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Entities.Inventory;
 
@@ -13,6 +14,7 @@ public class Item : BaseEntity
 
     public long UnitOfMeasureId { get; set; }
     public UnitOfMeasure? UnitOfMeasure { get; set; }
+    [Precision(10, 3)]
     public decimal Cost { get; set; }
     public DateTime PurchaseDate { get; set; }
 

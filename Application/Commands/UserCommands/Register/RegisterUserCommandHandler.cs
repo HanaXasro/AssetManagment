@@ -21,21 +21,21 @@ namespace Application.Commands.UserCommands.Register
         {
             Expression<Func<User, bool>> filter = x => x.Email == request.Email;
 
-            var IsUniqueEmail = await userRepository.FindAsync(filter);
+            var isUniqueEmail = await userRepository.FindAsync(filter);
 
-            if (IsUniqueEmail != null)
+            if (isUniqueEmail != null)
             {
                 await userRepository.ForgotPassword(request.Email, CreateRefreshToken());
-                sendAlreadyRegisteredEmail(request.Email);
-                throw new BadRequestEx("Email Already Exists, check your Email to Forgot Password.");
+                SendAlreadyRegisteredEmail(request.Email);
+                throw new BadRequestException("Email Already Exists, check your Email to Forgot Password.");
             }
 
             Expression<Func<User, bool>> filterUsername = x => x.Username == request.Username;
-            var IsUniqueUsername = await userRepository.FindAsync(filterUsername);
+            var isUniqueUsername = await userRepository.FindAsync(filterUsername);
 
-            if (IsUniqueUsername != null)
+            if (isUniqueUsername != null)
             {
-                throw new BadRequestEx($"Username not Available ({request.Username}).");
+                throw new BadRequestException($"Username not Available ({request.Username}).");
             }
 
             var accountEntity = mapper.Map<User>(request);
@@ -43,7 +43,7 @@ namespace Application.Commands.UserCommands.Register
             accountEntity.VerificationToken = new Random().Next(0000, 9999).ToString("D4");
             accountEntity.Created = DateTime.UtcNow;
             var user = await userRepository.Register(accountEntity);
-            sendVerificationEmail(user);
+            SendVerificationEmail(user);
             return "Register Successfuly, to Verify Ckeck Your Email.";
         }
 
@@ -55,7 +55,7 @@ namespace Application.Commands.UserCommands.Register
             return refreshToken;
         }
 
-        private void sendAlreadyRegisteredEmail(string email)
+        private void SendAlreadyRegisteredEmail(string email)
         {
             string message;
             string origin = httpContextAccessor.HttpContext!.Request!.Headers["origin"]!;
@@ -73,7 +73,7 @@ namespace Application.Commands.UserCommands.Register
             );
         }
 
-        private void sendVerificationEmail(User user)
+        private void SendVerificationEmail(User user)
         {
             string message;
             string origin = httpContextAccessor.HttpContext!.Request!.Headers["origin"]!;

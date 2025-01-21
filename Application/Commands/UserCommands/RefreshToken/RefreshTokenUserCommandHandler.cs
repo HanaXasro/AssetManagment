@@ -1,22 +1,14 @@
 ﻿using AutoMapper;
 using Application.Dtos.AccountDtos;
 using Application.Exceptions;
-using Application.Helper;
 using Domain.Entities.UserEntity;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Domain.Repositories.UserRepositories;
 
@@ -36,10 +28,10 @@ namespace Application.Commands.UserCommands.RefreshToken
 
             var refreshTokenExists = await userRepository.FindAsync(filter);
             if (refreshTokenExists == null)
-                throw new NotFoundEx("Referesh token not found.", request.Token);
+                throw new NotFoundException("Refresh token not found.", request.Token);
 
             if (!refreshTokenExists.IsActive)
-                throw new BadRequestEx("Token Is Expired.");
+                throw new BadRequestException("Token Is Expired.");
 
             var refreshToken = new Domain.Entities.UserEntity.RefreshToken()
             {
@@ -54,7 +46,7 @@ namespace Application.Commands.UserCommands.RefreshToken
                 refreshToken.CreatedByIp, refreshToken.Token);
 
             if (revokeTokenResult == null)
-                throw new BadRequestEx("Revoke Token Filed.");
+                throw new BadRequestException("Revoke Token Filed.");
 
             var createRefreshtokenResult = await userRepository.CreateRefreshAsync(refreshToken);
 

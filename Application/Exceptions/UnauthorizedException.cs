@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Application.Exceptions
 {
-    public class NotFoundEx : Exception
+    public class UnauthorizedException : Exception
     {
-        public NotFoundEx(string name, object key) : base($"{name} ({key})") { }
+        public UnauthorizedException(string name, object key) : base($"{name} ({key})") { }
     }
 }

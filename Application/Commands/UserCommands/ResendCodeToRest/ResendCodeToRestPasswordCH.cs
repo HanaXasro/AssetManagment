@@ -1,15 +1,9 @@
 ﻿using Application.Exceptions;
-using Application.Helper;
 using Domain.Entities.UserEntity;
 using Domain.Service;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using Domain.Repositories.UserRepositories;
 
 namespace Application.Commands.UserCommands.ResendCodeToRest
@@ -27,22 +21,22 @@ namespace Application.Commands.UserCommands.ResendCodeToRest
 
             var userExist = await userRepository.FindAsync(filter);
             if (userExist == null || userExist.ResetTokenExpires == null)
-                throw new NotFoundEx("Email not Found.", request.Email);
+                throw new NotFoundException("Email not Found.", request.Email);
 
             if (userExist.ResetTokenExpires < DateTime.UtcNow)
             {
                 var code4D = new Random().Next(0000, 9999).ToString("D4");
                 var userRest = await userRepository.ResendCodeToRest(userExist.UserId, code4D);
-                sendPasswordResetEmail(userRest!);
+                SendPasswordResetEmail(userRest!);
             }
 
-            sendPasswordResetEmail(userExist);
+            SendPasswordResetEmail(userExist);
 
             return "Send Code to Email Successfully";
 
         }
 
-        private void sendPasswordResetEmail(User user)
+        private void SendPasswordResetEmail(User user)
         {
             string message;
             string origin = httpContextAccessor.HttpContext!.Request!.Headers["origin"]!;

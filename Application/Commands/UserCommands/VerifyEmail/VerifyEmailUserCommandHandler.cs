@@ -13,25 +13,19 @@ using Domain.Repositories.UserRepositories;
 
 namespace Application.Commands.UserCommands.VerifyEmail
 {
-    public class VerifyEmailUserCommandHandler : IRequestHandler<VerifyEmailUserCommand, string>
+    public class VerifyEmailUserCommandHandler(IUserRepository userRepository)
+        : IRequestHandler<VerifyEmailUserCommand, string>
     {
-        private readonly IUserRepository userRepository;
-
-        public VerifyEmailUserCommandHandler(IUserRepository userRepository)
-        {
-            this.userRepository = userRepository;
-        }
-
         public async Task<string> Handle(VerifyEmailUserCommand request, CancellationToken cancellationToken)
         {
 
             Expression<Func<User, bool>> filter = x => x.VerificationToken == request.Token;
             var user = await userRepository.FindAsync(filter);
             if (user == null)
-                throw new NotFoundEx("Code Invalid.", request.Token);
+                throw new NotFoundException("Code Invalid.", request.Token);
             await userRepository.VerifyEmail(request.Token);
 
-            return "Verify Email Successfuly.";
+            return "Verify Email Successfully.";
         }
     }
 }

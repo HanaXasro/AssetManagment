@@ -42,10 +42,10 @@ namespace Application.Commands.UserCommands.Login
 
             var user = await userRepository.Login(request.UsernameOrEmail);
             if (user == null || !BC.Verify(request.Password, user.PasswordHash))
-                throw new UnauthorizedEx("Email or Passsword Incorect.", request.UsernameOrEmail);
+                throw new UnauthorizedException("Email or Passsword Incorect.", request.UsernameOrEmail);
 
             if (string.IsNullOrWhiteSpace(user.Verified.ToString()) || !string.IsNullOrWhiteSpace(user.VerificationToken))
-                throw new BadRequestEx("You are not Verifiy.");
+                throw new BadRequestException("You are not Verifiy.");
 
 
             var Result = new LoginReqponseDto()

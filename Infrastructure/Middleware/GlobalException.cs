@@ -37,7 +37,7 @@ namespace Infrastructure.Middleware
                 CustomValidationProblemDetalis problem;
                 switch (ex)
                 {
-                    case BadRequestEx badRequest:
+                    case BadRequestException badRequest:
                         httpStatusCode = HttpStatusCode.BadRequest;
                         problem = new CustomValidationProblemDetalis
                         {
@@ -49,7 +49,7 @@ namespace Infrastructure.Middleware
                         };
                         break;
 
-                    case NotFoundEx notFound:
+                    case NotFoundException notFound:
                         httpStatusCode = HttpStatusCode.NotFound;
                         problem = new CustomValidationProblemDetalis
                         {
@@ -61,7 +61,7 @@ namespace Infrastructure.Middleware
 
                         break;
 
-                    case UnauthorizedEx unauthorizedEx:
+                    case UnauthorizedException unauthorizedEx:
                         httpStatusCode = HttpStatusCode.Unauthorized;
                         problem = new CustomValidationProblemDetalis
                         {

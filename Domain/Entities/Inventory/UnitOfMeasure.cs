@@ -2,7 +2,7 @@
 
 namespace Domain.Entities.Inventory;
 
-public class UnitOfMeasure : BaseInventoryEntity
+public class UnitOfMeasure : BaseEntity
 {
     [Key] public long UomId { get; set; }
     [MaxLength(255)] public string? UnitName { get; set; }

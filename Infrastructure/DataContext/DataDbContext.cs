@@ -11,8 +11,7 @@ public class DataDbContext(DbContextOptions<DataDbContext> options) : DbContext(
     public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
     public DbSet<UnitConversion> UnitConversions { get; set; }
     public DbSet<Category> Categories { get; set; }
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Inventory> Inventories { get; set; }
+    public DbSet<Item> Items { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -20,8 +19,8 @@ public class DataDbContext(DbContextOptions<DataDbContext> options) : DbContext(
         modelBuilder.Entity<User>().HasIndex(x=>x.Email).IsUnique();
         modelBuilder.Entity<User>().HasIndex(x=>x.Username).IsUnique();
         modelBuilder.Entity<UnitOfMeasure>().HasIndex(x=>x.UnitName).IsUnique();
-        modelBuilder.Entity<Product>().HasIndex(x=>x.ProductName).IsUnique();
-        modelBuilder.Entity<Category>().HasIndex(x=>x.CategoryName).IsUnique();
+        modelBuilder.Entity<Item>().HasIndex(x=>x.Name).IsUnique();
+        modelBuilder.Entity<Category>().HasIndex(x=>x.Name).IsUnique();
         modelBuilder.Entity<UnitConversion>()
             .HasOne(u => u.FromUnit)
             .WithMany()

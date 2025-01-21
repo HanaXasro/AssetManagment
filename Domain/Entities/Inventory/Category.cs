@@ -2,13 +2,13 @@
 
 namespace Domain.Entities.Inventory;
 
-public class Category : BaseInventoryEntity
+public class Category : BaseEntity
 { 
     [Key]
-    public long CategoryId { get; set; } 
+    public long Id { get; set; } 
     [Required]
     [MaxLength(100)]
-    public string CategoryName { get; set; } = string.Empty; 
+    public string Name { get; set; } = string.Empty; 
     [MaxLength(255)]
     public string? Description { get; set; } 
 }

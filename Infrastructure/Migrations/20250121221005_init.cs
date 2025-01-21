@@ -179,7 +179,6 @@ namespace Infrastructure.Migrations
                     Cost = table.Column<decimal>(type: "decimal(10,3)", precision: 10, scale: 3, nullable: false),
                     PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BranchId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId1 = table.Column<long>(type: "bigint", nullable: true),
                     IsEnable = table.Column<bool>(type: "bit", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -198,11 +197,6 @@ namespace Infrastructure.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Items_Categories_CategoryId1",
-                        column: x => x.CategoryId1,
-                        principalTable: "Categories",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Items_UnitOfMeasures_UnitOfMeasureId",
                         column: x => x.UnitOfMeasureId,
@@ -303,11 +297,6 @@ namespace Infrastructure.Migrations
                 name: "IX_Items_CategoryId",
                 table: "Items",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Items_CategoryId1",
-                table: "Items",
-                column: "CategoryId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_Name",

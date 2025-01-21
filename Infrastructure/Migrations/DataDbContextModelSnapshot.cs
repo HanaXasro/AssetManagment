@@ -112,9 +112,6 @@ namespace Infrastructure.Migrations
                     b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("CategoryId1")
-                        .HasColumnType("bigint");
-
                     b.Property<decimal>("Cost")
                         .HasPrecision(10, 3)
                         .HasColumnType("decimal(10,3)");
@@ -143,8 +140,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("BranchId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("CategoryId1");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -430,14 +425,10 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Inventory.Category", "Category")
-                        .WithMany()
+                        .WithMany("Items")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("Domain.Entities.Inventory.Category", null)
-                        .WithMany("Items")
-                        .HasForeignKey("CategoryId1");
 
                     b.HasOne("Domain.Entities.Inventory.UnitOfMeasure", "UnitOfMeasure")
                         .WithMany()

@@ -5,12 +5,13 @@ namespace Infrastructure.AutoSeeds;
 
 public static class PermissionSeed
 {
-    public static void Seed(DataDbContext context)
+    public static async Task Seed(DataDbContext context)
     {
 
         var blockList = new List<string>()
         {
             nameof(RolePermission),
+            nameof(RefreshToken)
         };
         
         var entityNames = context.Model.GetEntityTypes()
@@ -21,7 +22,6 @@ public static class PermissionSeed
         var seedData = entityNames
             .Select((name, index) => new Permission
             {
-                Id = index + 1,
                 Title = name    
             })
             .ToList();
@@ -35,8 +35,8 @@ public static class PermissionSeed
         var permissions = newPermissions as Permission[] ?? newPermissions.ToArray();
         if (permissions.Any())
         {
-            context.Permissions.AddRange(permissions);
-            context.SaveChanges();
+            await context.Permissions.AddRangeAsync(permissions);
+            await context.SaveChangesAsync();
         }
     }
 }

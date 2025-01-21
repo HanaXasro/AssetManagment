@@ -24,6 +24,9 @@ namespace Infrastructure.Helper
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserReference, UserReference>();
             services.AddScoped<ICategory, CategoryRepository>();
+            
+            
+            
             return services;
         }
     }

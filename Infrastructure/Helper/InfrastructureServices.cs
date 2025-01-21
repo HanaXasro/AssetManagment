@@ -1,6 +1,8 @@
-﻿using Domain.Repositories.UserRepositories;
+﻿using Domain.Repositories.AssetRepositories;
+using Domain.Repositories.UserRepositories;
 using Domain.Service;
 using Infrastructure.DataContext;
+using Infrastructure.Repositories.AssetRepositories;
 using Infrastructure.Repositories.UserRepositories;
 using Infrastructure.Service;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +23,7 @@ namespace Infrastructure.Helper
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserReference, UserReference>();
+            services.AddScoped<ICategory, CategoryRepository>();
             return services;
         }
     }

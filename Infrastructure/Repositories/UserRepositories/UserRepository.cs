@@ -82,7 +82,6 @@ namespace Infrastructure.Repositories.UserRepositories
             var user = await context.Users.FirstOrDefaultAsync(o => o.ResetToken == token);
             user!.ResetToken = null;
             user.PasswordHash = password;
-            user.Updates!.Add(DateTime.UtcNow);
             user.ResetTokenExpires = null;
             await context.SaveChangesAsync();
             return user;

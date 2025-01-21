@@ -8,9 +8,7 @@ namespace Domain.Entities
 {
     public class BaseEntity
     {
-        public bool IsEnable { get; set; } = true;
-        public bool IsDeleted { get; set; } = false;
+        public bool IsEnable { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
-        public List<DateTime>? Updates  { get; set; } = new(); 
     }
 }
